@@ -68,7 +68,7 @@ window.VITRON_DEMOS = [
   {
     "id": "duck-inpaint",
     "modality": "image",
-    "instruction": "Use the subject from <REF_1> to repaint the masked area of <SOURCE>.",
+    "instruction": "Use the subject from the reference image to repaint the masked area of the source image.",
     "ref": "assets/duck-inpaint-ref.png",
     "mask": "assets/duck-inpaint-mask.png",
     "input": [
@@ -218,5 +218,23 @@ window.VITRON_DEMOS = [
     ],
     "inputVideo": "assets/horse-input.mp4",
     "outputVideo": "assets/horse-output.mp4"
+  },
+  {
+    "id": "garden-bear",
+    "modality": "3d",
+    "instruction": "Replace the vase with a teddy bear.",
+    "input": [],
+    "output": [],
+    "inputVideo": "assets/garden-input.mp4",
+    "outputVideo": "assets/garden-bear-output.mp4"
+  },
+  {
+    "id": "garden-remove",
+    "modality": "3d",
+    "instruction": "Remove the vase from the table.",
+    "input": [],
+    "output": [],
+    "inputVideo": "assets/garden-input.mp4",
+    "outputVideo": "assets/garden-remove-output.mp4"
   }
 ];
