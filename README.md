@@ -2,8 +2,7 @@
 
 ## Universal Visual Editing across Images, Videos, and 3D Scenes
 
-This repository contains the source code for the [VitronEdit project page](https://vitron-llm.github.io/VitronEdit
-/).
+This repository contains the source code for the [VitronEdit project page](https://vitron-llm.github.io/VitronEdit/).
 
 VitronEdit is a unified framework for image, video, and 3D scene editing, combining cross-modal editing transfer with geometry-aware post-training.
 
