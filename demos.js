@@ -182,8 +182,8 @@ window.VITRON_DEMOS = [
       "assets/bonsai-output-1.png",
       "assets/bonsai-output-2.png"
     ],
-    "inputVideo": "",
-    "outputVideo": ""
+    "inputVideo": "assets/bonsai-input.mp4",
+    "outputVideo": "assets/bonsai-output.mp4"
   },
   {
     "id": "sculpture",
@@ -199,8 +199,8 @@ window.VITRON_DEMOS = [
       "assets/sculpture-output-1.png",
       "assets/sculpture-output-2.png"
     ],
-    "inputVideo": "",
-    "outputVideo": ""
+    "inputVideo": "assets/sculpture-input.mp4",
+    "outputVideo": "assets/sculpture-output.mp4"
   },
   {
     "id": "horse",
@@ -216,7 +216,7 @@ window.VITRON_DEMOS = [
       "assets/horse-output-1.png",
       "assets/horse-output-2.png"
     ],
-    "inputVideo": "",
-    "outputVideo": ""
+    "inputVideo": "assets/horse-input.mp4",
+    "outputVideo": "assets/horse-output.mp4"
   }
 ];
