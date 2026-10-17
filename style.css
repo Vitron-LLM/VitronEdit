@@ -122,3 +122,5 @@ footer{width:calc(100% - 64px);margin-inline:auto}
   .is-revealing .flow-output .flow-frames:after{display:none}
   .flow-frames img{transition:none}
 }
+
+.button .github-icon{fill:currentColor;stroke:none;flex-shrink:0}
