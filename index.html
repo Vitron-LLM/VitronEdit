@@ -5,11 +5,50 @@
 <header class="site-header"><a class="brand" href="#"><img src="assets/logo.png" alt=""><span>VitronEdit</span></a><nav aria-label="Main navigation"><a href="#demos">Demos</a><a href="#research">Research</a><a href="#method">Method</a><a role="link" aria-disabled="true" data-paper-link title="arXiv link coming soon">Paper</a></nav></header>
 <nav class="section-nav" aria-label="Page sections"><span class="section-nav-title">VitronEdit</span><a href="#overview" aria-current="location">Overview</a><a href="#demos">Demos</a><a href="#research">Research</a><a href="#method">Method</a><a href="#abstract">Abstract</a><a href="#citation">BibTeX</a></nav>
 <main>
-<section class="hero" id="overview"><div class="hero-title"><img src="assets/logo.png" alt="VitronEdit logo"><h1>VitronEdit<span>Universal Visual Editing<br>across Images, Videos, and 3D Scenes</span></h1></div>
+<section class="hero hero-flow" id="overview" aria-labelledby="hero-title">
+  <div class="hero-title"><h1 id="hero-title">VitronEdit<span>Universal Visual Editing<br>across Images, Videos, and 3D Scenes</span></h1></div>
 <p class="authors">Jing Wang<sup>1</sup>, Yanlin Li<sup>1</sup>, Mong-Li Lee<sup>1</sup>, Wynne Hsu<sup>1</sup>,<br class="author-break"> Shengqiong Wu<sup>2,*</sup>, Hao Fei<sup>2,*</sup></p><p class="affiliations"><sup>1</sup> National University of Singapore <span><sup>2</sup> University of Oxford</span></p><p class="correspondence">* Corresponding authors</p>
 <div class="hero-actions"><a class="button primary" href="#demos">Explore editing demos</a><a class="button" role="link" aria-disabled="true" data-paper-link title="arXiv link coming soon">Read the paper <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l4 4v14H7zM14 3v5h4M10 12h5M10 16h5"/></svg></a></div>
-<p class="hero-summary">Universal image, video, and 3D editing<br>through cross-modal knowledge transfer and geometry-aware post-training.</p>
-<!-- <div class="featured" id="featured"></div> -->
+  <div class="editing-flow is-revealing" aria-label="Images, videos, and 3D scenes pass through one shared editing model">
+    <div class="flow-headings" aria-hidden="true"><span>Visual inputs</span><span>One shared model</span><span>Edited worlds</span></div>
+    <div class="flow-tracks">
+<div class="flow-track flow-track-image" style="--track-order:0">
+      <div class="flow-source"><button class="flow-media flow-input" type="button" data-hero-demo="camera" aria-label="View Make the camera a wooden toy. input">
+        <span class="flow-media-label"><span>Image</span><span>A single frame</span></span>
+        <span class="flow-frames flow-frames-image"><img src="assets/camera-input-0.png" alt="Image input, view 1" width="320" height="200" decoding="async"></span>
+      </button><p class="flow-instruction">“Make the camera a wooden toy.”</p></div>
+      <div class="flow-bridge" aria-hidden="true"><span></span></div>
+      <button class="flow-media flow-output" type="button" data-hero-demo="camera" aria-label="View Make the camera a wooden toy. output">
+        <span class="flow-media-label"><span>Edited image</span><span>View result ↗</span></span>
+        <span class="flow-frames flow-frames-image"><img src="assets/camera-output-0.png" alt="Image output, view 1" width="320" height="200" decoding="async"></span>
+      </button>
+    </div>
+<div class="flow-track flow-track-video" style="--track-order:1">
+      <div class="flow-source"><button class="flow-media flow-input" type="button" data-hero-demo="panda" aria-label="View Change the car to a jeep. input">
+        <span class="flow-media-label"><span>Video</span><span>Across time</span></span>
+        <span class="flow-frames flow-frames-video"><img src="assets/panda-input-0.png" alt="Video input, frame 1" width="320" height="200" decoding="async"><img src="assets/panda-input-1.png" alt="Video input, frame 2" width="320" height="200" decoding="async"><img src="assets/panda-input-2.png" alt="Video input, frame 3" width="320" height="200" decoding="async"></span>
+      </button><p class="flow-instruction">“Change the car to a jeep.”</p></div>
+      <div class="flow-bridge" aria-hidden="true"><span></span></div>
+      <button class="flow-media flow-output" type="button" data-hero-demo="panda" aria-label="View Change the car to a jeep. output">
+        <span class="flow-media-label"><span>Edited video</span><span>View result ↗</span></span>
+        <span class="flow-frames flow-frames-video"><img src="assets/panda-output-0.png" alt="Video output, frame 1" width="320" height="200" decoding="async"><img src="assets/panda-output-1.png" alt="Video output, frame 2" width="320" height="200" decoding="async"><img src="assets/panda-output-2.png" alt="Video output, frame 3" width="320" height="200" decoding="async"></span>
+      </button>
+    </div>
+<div class="flow-track flow-track-3d" style="--track-order:2">
+      <div class="flow-source"><button class="flow-media flow-input" type="button" data-hero-demo="bonsai" aria-label="View Make the bonsai snowy. input">
+        <span class="flow-media-label"><span>3D</span><span>Across viewpoints</span></span>
+        <span class="flow-frames flow-frames-3d"><img src="assets/bonsai-input-0.png" alt="3D input, view 1" width="320" height="200" decoding="async"><img src="assets/bonsai-input-1.png" alt="3D input, view 2" width="320" height="200" decoding="async"><img src="assets/bonsai-input-2.png" alt="3D input, view 3" width="320" height="200" decoding="async"></span>
+      </button><p class="flow-instruction">“Make the bonsai snowy.”</p></div>
+      <div class="flow-bridge" aria-hidden="true"><span></span></div>
+      <button class="flow-media flow-output" type="button" data-hero-demo="bonsai" aria-label="View Make the bonsai snowy. output">
+        <span class="flow-media-label"><span>Edited 3d</span><span>View result ↗</span></span>
+        <span class="flow-frames flow-frames-3d"><img src="assets/bonsai-output-0.png" alt="3D output, view 1" width="320" height="200" decoding="async"><img src="assets/bonsai-output-1.png" alt="3D output, view 2" width="320" height="200" decoding="async"><img src="assets/bonsai-output-2.png" alt="3D output, view 3" width="320" height="200" decoding="async"></span>
+      </button>
+    </div>
+      <div class="flow-engine" aria-hidden="true"><div class="flow-engine-core"><img src="assets/logo.png" alt="" width="64" height="64"><strong>VitronEdit</strong><span>Shared<br>backbone</span></div></div>
+    </div>
+    <div class="flow-footer"><p>Cross-modal knowledge transfer · Geometry-aware post-training</p><button class="text-button" id="toggle-flow" type="button" aria-pressed="false">Pause animation</button></div>
+  </div>
 </section>
 <div id="demos">
 <section class="gallery-section" id="image-edits" aria-labelledby="image-edits-title">

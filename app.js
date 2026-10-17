@@ -19,7 +19,29 @@ for(const modality of ['image','video','3d']){
   const gallery=document.getElementById(`${modality}-gallery`);
   gallery.replaceChildren(...demos.filter(d=>d.modality===modality).map(d=>card(d)));
 }
-document.querySelector('#featured').append(card(demos.find(d=>d.id==='panda')||demos[0],true));
+// Hero tracks open the same paired-media viewer as the gallery.
+document.querySelectorAll('[data-hero-demo]').forEach(button=>button.addEventListener('click',()=>{
+  const demo=demos.find(d=>d.id===button.dataset.heroDemo);
+  document.querySelector('#viewer-title').textContent=demo.instruction;
+  const content=document.querySelector('#viewer-content');
+  content.replaceChildren(card(demo,true));
+  content.querySelector('[data-expand]').remove();
+  viewer.showModal();
+}));
+const editingFlow=document.querySelector('.editing-flow');
+const flowToggle=document.querySelector('#toggle-flow');
+flowToggle.addEventListener('click',()=>{
+  const paused=editingFlow.classList.toggle('is-paused');
+  flowToggle.textContent=paused?'Resume animation':'Pause animation';
+  flowToggle.setAttribute('aria-pressed',String(paused));
+});
+// Suspend the loop outside the viewport without changing the user's pause choice.
+new IntersectionObserver(entries=>{
+  editingFlow.classList.toggle('is-out-of-view',!entries[0].isIntersecting);
+}).observe(editingFlow);
+document.addEventListener('visibilitychange',()=>{
+  editingFlow.classList.toggle('is-page-hidden',document.hidden);
+});
 document.querySelector('#close-viewer').addEventListener('click',()=>viewer.close());viewer.addEventListener('close',()=>{forgetVideoCards(viewer);document.querySelector('#viewer-content').replaceChildren();});viewer.addEventListener('click',e=>{if(e.target===viewer){const r=viewer.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)viewer.close();}});
 
 // Track section positions after scrolling, resizing, and media loading.
