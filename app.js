@@ -1,7 +1,6 @@
 'use strict';
 const demos=window.VITRON_DEMOS;
 const names={image:'Image',video:'Video','3d':'3D'};
-const gallery=document.querySelector('#gallery');
 const viewer=document.querySelector('#viewer');
 const PLAY_ICON='<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><polygon points="6,4 20,12 6,20"/></svg>';
 const PAUSE_ICON='<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><rect x="5" y="4" width="4" height="16"/><rect x="15" y="4" width="4" height="16"/></svg>';
@@ -16,43 +15,20 @@ function card(d,featured=false){const el=document.createElement('article');el.cl
  if(hasVideo){const videos=[...el.querySelectorAll('video')];const play=el.querySelector('[data-play]');const state={userPaused:false,play:()=>Promise.all(videos.map(v=>v.play())).catch(()=>{}),pause:()=>videos.forEach(v=>v.pause())};videoCards.set(el,state);play.addEventListener('click',()=>{if(videos[0].paused){state.userPaused=false;state.play();}else{state.userPaused=true;state.pause();}});videos[0].addEventListener('play',()=>{play.innerHTML=PAUSE_ICON;play.setAttribute('aria-label','Pause both');});videos[0].addEventListener('pause',()=>{play.innerHTML=PLAY_ICON;play.setAttribute('aria-label','Play both');});const fitRates=()=>{const dur=videos.map(v=>v.duration);if(!dur.every(Number.isFinite))return;const longest=Math.max(...dur);const speed=PLAYBACK_SPEED[d.modality]??1;videos.forEach((v,i)=>{v.defaultPlaybackRate=v.playbackRate=speed*dur[i]/longest;});};videos.forEach(v=>v.addEventListener('loadedmetadata',fitRates));range.addEventListener('input',()=>{videos.forEach(v=>{if(Number.isFinite(v.duration))v.currentTime=v.duration*Number(range.value)/100;});});videos[0].addEventListener('timeupdate',()=>{if(!Number.isFinite(videos[0].duration))return;const p=videos[0].currentTime/videos[0].duration;range.value=100*p;if(videos[0].paused||!Number.isFinite(videos[1].duration))return;const t=p*videos[1].duration;if(Math.abs(videos[1].currentTime-t)>.2)videos[1].currentTime=t;});videos.forEach(v=>v.addEventListener('error',()=>{state.pause();play.disabled=true;}));videoObserver.observe(el);}
  const mc=el.querySelector('[data-mask-compare]');if(mc){const overlay=mc.querySelector('.mask-overlay');const divider=mc.querySelector('.mask-divider');let pos=50;function setPos(p){pos=Math.max(0,Math.min(100,p));overlay.style.clipPath=`inset(0 0 0 ${pos}%)`;divider.style.left=pos+'%';}setPos(50);let dragging=false;function onMove(e){if(!dragging)return;const rect=mc.getBoundingClientRect();const x=(e.touches?e.touches[0].clientX:e.clientX)-rect.left;setPos(x/rect.width*100);}mc.addEventListener('mousedown',e=>{dragging=true;onMove(e);});mc.addEventListener('touchstart',e=>{dragging=true;onMove(e);},{passive:true});document.addEventListener('mousemove',onMove);document.addEventListener('touchmove',onMove,{passive:true});document.addEventListener('mouseup',()=>dragging=false);document.addEventListener('touchend',()=>dragging=false);}
  el.querySelector('[data-expand]').addEventListener('click',()=>{document.querySelector('#viewer-title').textContent=d.instruction;const content=document.querySelector('#viewer-content');content.replaceChildren(card(d,true));content.querySelector('[data-expand]').remove();viewer.showModal();});return el;}
-const PAGE_SIZE=6;
-let currentFilter='all';
-let currentPage=0;
-function render(filter,page){
-  if(filter!==undefined)currentFilter=filter;
-  if(page!==undefined)currentPage=page;
-  forgetVideoCards(gallery);
-  const list=demos.filter(d=>currentFilter==='all'||d.modality===currentFilter);
-  const totalPages=Math.ceil(list.length/PAGE_SIZE);
-  if(currentPage>=totalPages)currentPage=totalPages-1;
-  if(currentPage<0)currentPage=0;
-  const start=currentPage*PAGE_SIZE;
-  const pageItems=list.slice(start,start+PAGE_SIZE);
-  gallery.replaceChildren(...pageItems.map(d=>card(d)));
-  document.querySelector('#demo-count').textContent=`${list.length} editing demonstrations`;
-  document.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.filter===currentFilter)));
-  const pager=document.querySelector('#pager');
-  if(totalPages>1){
-    pager.style.display='';
-    pager.querySelector('[data-prev]').disabled=currentPage===0;
-    pager.querySelector('[data-next]').disabled=currentPage===totalPages-1;
-    pager.querySelector('[data-page-info]').textContent=`${currentPage+1} / ${totalPages}`;
-  }else{pager.style.display='none';}
+for(const modality of ['image','video','3d']){
+  const gallery=document.getElementById(`${modality}-gallery`);
+  gallery.replaceChildren(...demos.filter(d=>d.modality===modality).map(d=>card(d)));
 }
-document.querySelectorAll('[data-filter]').forEach(b=>b.addEventListener('click',()=>render(b.dataset.filter,0)));
-document.querySelector('[data-prev]').addEventListener('click',()=>{render(undefined,currentPage-1);document.querySelector('#demos').scrollIntoView({behavior:'smooth'});});
-document.querySelector('[data-next]').addEventListener('click',()=>{render(undefined,currentPage+1);document.querySelector('#demos').scrollIntoView({behavior:'smooth'});});
-document.querySelector('#featured').append(card(demos.find(d=>d.id==='panda')||demos[0],true));render('all',0);
+document.querySelector('#featured').append(card(demos.find(d=>d.id==='panda')||demos[0],true));
 document.querySelector('#close-viewer').addEventListener('click',()=>viewer.close());viewer.addEventListener('close',()=>{forgetVideoCards(viewer);document.querySelector('#viewer-content').replaceChildren();});viewer.addEventListener('click',e=>{if(e.target===viewer){const r=viewer.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)viewer.close();}});
 
-// Track section positions after scrolling, resizing, and demo filtering.
+// Track section positions after scrolling, resizing, and media loading.
 const sectionLinks=[...document.querySelectorAll('.section-nav a')];
 const sections=sectionLinks.map(link=>document.querySelector(link.getAttribute('href')));
 let sectionUpdateQueued=false;
 function updateSectionNavigation(){
   sectionUpdateQueued=false;
-  const threshold=window.innerWidth<1000?90:120;
+  const threshold=window.innerWidth<1500?90:120;
   let current=0;
   sections.forEach((section,index)=>{if(section.getBoundingClientRect().top<=threshold)current=index;});
   if(window.scrollY>0&&window.scrollY+window.innerHeight>=document.documentElement.scrollHeight-3)current=sections.length-1;
